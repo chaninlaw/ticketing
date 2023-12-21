@@ -1,0 +1,23 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: ticketing
+build:
+  googleCloudBuild:
+    projectId: jovial-archive-408812
+  artifacts:
+    - image: us.grc.io/jovial-archive-408812/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: 'src/**/*.ts'
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+deploy:
+  cloudrun:
+    projectid: jovial-archive-408812
+    region: asia-southeast1
